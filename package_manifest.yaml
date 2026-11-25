@@ -1,0 +1,13 @@
+manifestVersion: 1
+package:
+  name: robonix.service.rover.status
+  version: 0.1.0
+  description: Read-only rover telemetry monitor with an MCP status snapshot and dashboard.
+  license: MulanPSL-2.0
+  tags: [service, status, gnss, rtk, imu, mcp]
+capability_id: rover_status
+build: bash scripts/build.sh
+start: bash scripts/start.sh
+capabilities:
+  - name: robonix/service/rover_status/status
+    transport: [grpc, mcp]

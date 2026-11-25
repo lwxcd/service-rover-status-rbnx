@@ -1,0 +1,9 @@
+[contract]
+id = "robonix/service/rover_status/status"
+version = "1"
+kind = "service"
+idl = "rover_status_api/srv/Status.srv"
+description = "Read-only rover telemetry snapshot (GNSS/RTK fix, local position, IMU heading, NTRIP/IMU links)"
+
+[mode]
+type = "rpc"

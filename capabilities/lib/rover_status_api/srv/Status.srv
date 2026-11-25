@@ -1,0 +1,7 @@
+# Optional comma-separated top-level snapshot fields, e.g. "position,imu".
+# Empty returns the full snapshot.
+string section
+---
+bool ok
+string status_json
+string text
