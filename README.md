@@ -12,7 +12,10 @@ the standalone tool stays available as an out-of-stack fallback.
 - ROS `{state_topic}` (default `/robonix/service/rover_status/state`):
   1 Hz `std_msgs/String` JSON snapshot for in-stack consumers.
 - HTTP (default `127.0.0.1:50109`): `/` dashboard, `/status` JSON, `/text`
-  one line. No authentication; keep it on loopback and use a tunnel.
+  one line. No authentication; it stays on loopback. In the standard
+  deployment robonix-client runs on the same host and reads it directly;
+  for a remote viewer, forward the port over SSH instead of binding it
+  publicly.
 - Records (default `~/.robonix/rover_status`): daily
   `rover_status_YYYYMMDD.csv` (23 columns, same as the standalone tool) and an
   atomic `rover_status.json`, pruned after `record_retention_days`.
@@ -58,6 +61,11 @@ uv run --no-project --with pytest pytest -q tests
 
 ## Deployment note
 
-While both recorders run during a migration window, the standalone tool writes
-to `~/rtk_imu_logs` and this service to `~/.robonix/rover_status`. Keep only
-one enabled once the service is verified.
+In the current single-stack deployment this service is the primary telemetry
+path: robonix-client runs on the robot host and its Perception page reads the
+loopback dashboard directly. The standalone `scripts/rtk_imu/rover_status_ros.py`
+tool (HTTP 8080) still runs as an out-of-stack fallback and keeps its own
+recordings under `~/rtk_imu_logs`; this service records under
+`~/.robonix/rover_status`. Keep the two recorders distinct and revisit whether
+the fallback should stay enabled once the service has run through the field
+season.
